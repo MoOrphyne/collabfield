@@ -7,8 +7,9 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 require 'capybara/poltergeist'
-require 'factory_bot_rails'
+require 'support/factory_bot'
 require 'capybara/rspec'
+require 'phantomjs'
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -40,9 +41,13 @@ RSpec.configure do |config|
   # examples within a transaction, remove the following line or assign false
   # instead of true.
   config.include Devise::Test::IntegrationHelpers, type: :feature
-  config.include FactoryBot::Syntax::Methods
+
   Capybara.javascript_driver = :poltergeist
+  # Capybara.register_driver :poltergeist do |app|
+  #   Capybara::Poltergeist::Driver.new(app, {:js_errors => false})
+  # end
   Capybara.server = :puma
+
 
   config.use_transactional_fixtures = false
   config.before(:suite) do
